@@ -74,6 +74,10 @@ button:hover {
     background-color: #218188;
 }
 
+button:first-child:hover {
+    background-color: #9715ac;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
