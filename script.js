@@ -21,13 +21,13 @@ function getRequest(url) {
                 spanText.style.width = "130px";
 
                 const btnEdit = document.createElement("button");
-                btnEdit.textContent = "ویرایش";
+                btnEdit.textContent = "Edit";
                 btnEdit.addEventListener("click", function () {
                     editTodoList(newTask, spanText, taskInput);
                 });
 
                 const btnDelete = document.createElement("button");
-                btnDelete.textContent = "حذف";
+                btnDelete.textContent = "Delete";
                 btnDelete.addEventListener("click", function () {
                     deleteRequest("http://localhost:3000/api/tasks/" + task.id, newTask);
                 });

@@ -1,18 +1,13 @@
 {
     "tasks": [
         {
-            "id": 1,
-            "task": "a",
-            "taskStatus": "undone"
-        },
-        {
             "id": 2,
             "task": "b",
             "taskStatus": "undone"
         },
         {
             "id": 3,
-            "task": "c",
+            "task": "hello world",
             "taskStatus": "undone"
         }
     ]
