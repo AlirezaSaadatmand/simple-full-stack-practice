@@ -10,6 +10,61 @@ function getRequest(url) {
         });
 }
 
+function postRequest(url, body) {
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        });
+}
+
+function deleteRequest(url) {
+    fetch(url, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        });
+}
+
+function patchRequest(url, body) {
+    fetch(url, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => console.log("PUT Response:", data))
+        .catch((error) => console.error("Error:", error));
+}
+
 document.getElementById("addTaskBtn").addEventListener("click", function addTodoList(newTask) {
     const taskInput = document.getElementById("taskInput");
     const taskText = taskInput.value.trim();
