@@ -2,12 +2,7 @@
     "tasks": [
         {
             "id": 2,
-            "task": "b",
-            "taskStatus": "undone"
-        },
-        {
-            "id": 3,
-            "task": "hello world",
+            "task": "ali",
             "taskStatus": "undone"
         }
     ]

@@ -1,3 +1,4 @@
+let state = "new";
 function getRequest(url) {
     fetch(url, {
         method: "GET",
@@ -23,7 +24,7 @@ function getRequest(url) {
                 const btnEdit = document.createElement("button");
                 btnEdit.textContent = "Edit";
                 btnEdit.addEventListener("click", function () {
-                    editTodoList(newTask, spanText, taskInput);
+                    editTodoList(taskList, spanText, task.id);
                 });
 
                 const btnDelete = document.createElement("button");
@@ -66,20 +67,7 @@ function postRequest(url, body) {
         });
 }
 
-document.getElementById("addTaskBtn").addEventListener("click", () => {
-    const taskInput = document.getElementById("taskInput");
-    const taskText = taskInput.value.trim();
-
-    if (taskText !== "") {
-        const body = {
-            task: taskText,
-            taskStatus: "undone",
-        };
-        postRequest("http://localhost:3000/api/tasks", body);
-        taskInput.value = "";
-        taskInput.focus();
-    }
-});
+const taskInput = document.getElementById("taskInput");
 
 function deleteRequest(url, newTask) {
     fetch(url, {
@@ -95,35 +83,50 @@ function deleteRequest(url, newTask) {
             return response.json();
         })
         .then((data) => {
+            newTask.remove();
             return data;
         });
-
-    newTask.remove();
 }
 
-// function patchRequest(url, body) {
-//     fetch(url, {
-//         method: "PATCH",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(body),
-//     })
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error(`HTTP error! Status: ${response.status}`);
-//             }
-//             return response.json();
-//         })
-//         .then((data) => console.log("PUT Response:", data))
-//         .catch((error) => console.error("Error:", error));
-// }
+function patchRequest(url, body) {
+    fetch(url, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-// // function editTodoList(newTask, spanText, taskInput) {
-// //     taskInput.value = spanText.innerHTML;
-// //     taskInput.focus();
-// //     document.getElementById("addTaskBtn").addEventListener("click", function () {
-// //         addTodoList(newTask);
-// //     });
-// //     newTask.remove();
-// // }
+            return response.json();
+        })
+        .then((data) => getRequest("http://localhost:3000/api/tasks"));
+}
+
+function editTodoList(taskList, spanText, id) {
+    taskList.innerHTML = "";
+    taskInput.value = spanText.innerHTML;
+    taskInput.focus();
+    state = `${id}`;
+}
+
+document.getElementById("addTaskBtn").addEventListener("click", () => {
+    const taskText = taskInput.value.trim();
+    if (taskText !== "") {
+        const body = {
+            task: taskText,
+            taskStatus: "undone",
+        };
+        if (state == "new") {
+            postRequest("http://localhost:3000/api/tasks", body);
+        } else {
+            patchRequest(`http://localhost:3000/api/tasks/${state}`, body);
+            state = "new";
+        }
+        taskInput.value = "";
+        taskInput.focus();
+    }
+});
